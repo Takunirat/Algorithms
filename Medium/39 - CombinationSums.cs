@@ -1,40 +1,36 @@
 public class Solution {
     public IList<IList<int>> CombinationSum(int[] candidates, int target) {
-        return CombinationSum(candidates, target, 0, new List<int>()).ToList();
-    }
-
-    private IEnumerable<IList<int>> CombinationSum(int[] candidates, int target, int sum, IList<int> list)
-    {
-        var max = list.Count > 0 ? list.Max(): 0;
-        
         for(int i = 0; i < candidates.Length; i++)
         {
-            if(candidates[i] < max)
+            CombinationSum(candidates[i..], target, 0, new List<int>());
+        }
+
+        return result;
+    }
+
+    private IList<IList<int>> result = new List<IList<int>>();
+    
+    private void CombinationSum(int[] candidates, int target, int sum, IList<int> list)
+    {
+        var current = list.ToList();
+        
+        while(sum + candidates[0] <= target)
+        {
+            current.Add(candidates[0]);
+            sum += candidates[0];
+
+            if(sum == target)
             {
-                //yield break;
+                result.Add(current);
+                break;
             }
-            
-            var current = list.ToList();
 
-            if(sum + candidates[i] == target)
+            if(candidates.Length > 1)
             {
-                current.Add(candidates[i]);
-
-                yield return current;
-            }
-
-            if(sum + candidates[i] > target)
-            {
-                yield break;
-            }
-
-            current.Add(candidates[i]);
-
-            var result = CombinationSum(candidates, target, sum + candidates[i], current);
-
-            foreach(var item in result)
-            {
-                yield return item;
+                for(int i = 1; i < candidates.Length; i++)
+                {
+                    CombinationSum(candidates[i..], target, sum, current);
+                }
             }
         }
     }
