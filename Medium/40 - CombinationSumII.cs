@@ -4,6 +4,11 @@ public class Solution {
         
         for(int i = 0; i < candidates.Length; i++)
         {
+            if(i > 1 && candidates[i] == candidates[i - 1])
+            {
+                continue;
+            }
+            
             CombinationSum(candidates[i..], target, 0, new List<int>());
         }
 
@@ -15,7 +20,7 @@ public class Solution {
     private void CombinationSum(int[] candidates, int target, int sum, IList<int> list)
     {
         var current = list.ToList();
-        
+
         if(sum + candidates[0] <= target)
         {
             current.Add(candidates[0]);
@@ -30,6 +35,11 @@ public class Solution {
             {
                 for(int i = 1; i < candidates.Length; i++)
                 {
+                    if(i > 1 && candidates[i] == candidates[i - 1])
+                    {
+                        continue;
+                    }
+                    
                     CombinationSum(candidates[i..], target, sum, current);
                 }
             }
