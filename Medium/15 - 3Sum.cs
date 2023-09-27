@@ -5,6 +5,11 @@ public class Solution {
 
         for(int i = 0; i < list.Count(); i++)
         {
+            if(list[i] > 0)
+            {
+                break;
+            }
+            
             var subNums = list.ToList();
             subNums.RemoveAt(i);
             var pairs = TwoSum(subNums, list[i] * (-1));
@@ -25,30 +30,36 @@ public class Solution {
     }
 
     public IList<IList<int>> TwoSum(IList<int> list, int target) {
-        var result = new List<IList<int>>();
+         var i = 0;
+         var j = list.Count() - 1;
+         var result = new List<IList<int>>();
         
-        for(int i = 0; i < list.Count(); i++)
+        while(i < j)
         {
-            for(int j = 0; j < list.Count(); j++)
+            var sum = list[i] + list[j];
+            
+            if(sum == target)
             {
-                if(i == j)
+                var pair = new List<int> {list[i], list[j]};
+                                
+                if(!result.Any(x => x[0] == pair[0] && x[1] == pair[1]))
                 {
+                    result.Add(pair);
                     continue;
                 }
+            }
+            
+            if(sum <= target)
+            {
+                i++;
+            }
 
-                if(list[i] + list[j] == target)
-                {
-                    var pair = new List<int> {list[i], list[j]};
-                    pair = pair.OrderBy(x => x).ToList();
-                
-                    if(!result.Any(x => x[0] == pair[0] && x[1] == pair[1]))
-                    {
-                        result.Add(pair);
-                    }
-                }
+            if(sum > target)
+            {
+                j--;
             }
         }
-
+        
         return result;
     }
 }
