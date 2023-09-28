@@ -24,26 +24,26 @@ public class Solution {
     public int[] TwoSum(int[] nums, int target) {
          var basic = nums.ToArray();
          nums = nums.OrderBy(x => x).ToArray();
-         var i = 0;
-         var j = nums.Length - 1;
+         var lo = 0;
+         var hi = nums.Length - 1;
         
-        while(i < j)
+        while(lo < hi)
         {
-            var sum = nums[i] + nums[j];
+            var sum = nums[lo] + nums[hi];
             
             if(sum == target)
             {
-                return new int[] {Array.IndexOf(basic, nums[i]), Array.LastIndexOf(basic, nums[j])};
+                return new int[] {Array.IndexOf(basic, nums[lo]), Array.LastIndexOf(basic, nums[hi])};
             }
             
             if(sum < target)
             {
-                i++;
+                lo++;
             }
 
             if(sum > target)
             {
-                j--;
+                hi--;
             }
         }
         

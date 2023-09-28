@@ -1,22 +1,20 @@
 public class Solution {
     public IList<IList<int>> ThreeSum(int[] nums) {
-        var list = nums.OrderBy(x => x).ToList();
+        Array.Sort(nums);
         var result = new List<IList<int>>();
 
-        for(int i = 0; i < list.Count(); i++)
+        for(int i = 0; i < nums.Length; i++)
         {
-            if(list[i] > 0)
+            if(nums[i] > 0  || (i != 0 && nums[i - 1] == nums[i]))
             {
-                break;
+                continue;
             }
             
-            var subNums = list.ToList();
-            subNums.RemoveAt(i);
-            var pairs = TwoSum(subNums, list[i] * (-1));
+            var pairs = TwoSum(nums, nums[i] * (-1), i);
             
             foreach(var pair in pairs)
             {
-                var triple = new List<int> {list[i], pair[0], pair[1]};
+                var triple = new List<int> {nums[i], pair[0], pair[1]};
                 triple = triple.OrderBy(x => x).ToList();
                 
                 if(!result.Any(x => x[0] == triple[0] && x[1] == triple[1] && x[2] == triple[2]))
@@ -29,34 +27,45 @@ public class Solution {
         return result;
     }
 
-    public IList<IList<int>> TwoSum(IList<int> list, int target) {
-         var i = 0;
-         var j = list.Count() - 1;
+    public IList<IList<int>> TwoSum(int[] nums, int target, int targetIndex) {
+         var lo = 0;
+         var hi = nums.Length - 1;
          var result = new List<IList<int>>();
         
-        while(i < j)
+        while(lo < hi)
         {
-            var sum = list[i] + list[j];
+            if(lo == targetIndex)
+            {
+                lo++;
+                continue;
+            }
+            
+            if(hi == targetIndex)
+            {
+                hi--;
+                continue;
+            }
+                        
+            var sum = nums[lo] + nums[hi];
             
             if(sum == target)
             {
-                var pair = new List<int> {list[i], list[j]};
+                var pair = new List<int> {nums[lo], nums[hi]};
                                 
                 if(!result.Any(x => x[0] == pair[0] && x[1] == pair[1]))
                 {
                     result.Add(pair);
-                    continue;
                 }
             }
             
             if(sum <= target)
             {
-                i++;
+                lo++;
             }
 
             if(sum > target)
             {
-                j--;
+                hi--;
             }
         }
         
