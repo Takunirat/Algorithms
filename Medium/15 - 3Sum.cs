@@ -28,24 +28,12 @@ public class Solution {
     }
 
     public IList<IList<int>> TwoSum(int[] nums, int target, int targetIndex) {
-         var lo = 0;
+         var lo = targetIndex + 1;
          var hi = nums.Length - 1;
          var result = new List<IList<int>>();
         
         while(lo < hi)
         {
-            if(lo == targetIndex)
-            {
-                lo++;
-                continue;
-            }
-            
-            if(hi == targetIndex)
-            {
-                hi--;
-                continue;
-            }
-                        
             var sum = nums[lo] + nums[hi];
             
             if(sum == target)
